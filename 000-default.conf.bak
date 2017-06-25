@@ -1,0 +1,74 @@
+<VirtualHost *:80>
+	# Here is the web address(ServerName)
+	ServerName www.google.com
+	<IfModule mod_rewrite.c>
+  	<IfModule mod_ssl.c>
+    	<Location />
+      	RewriteEngine on
+      	RewriteCond %{HTTPS} !^on$ [NC]
+      	RewriteRule . https://%{HTTP_HOST}%{REQUEST_URI}  [L]
+    	</Location>
+  	</IfModule>
+	</IfModule>
+</VirtualHost>
+
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+	# The ServerName directive sets the request scheme, hostname and port that
+	# the server uses to identify itself. This is used when creating
+	# redirection URLs. In the context of virtual hosts, the ServerName
+	# specifies what hostname must appear in the request's Host: header to
+	# match this virtual host. For the default virtual host (this file) this
+	# value is not decisive as it is used as a last resort host regardless.
+	# However, you must set it for any further virtual host explicitly.
+	
+	# Here is the specific web address(ServerName) and its alias(ServerAlias). 
+	ServerName www.google.com 
+        ServerAlias google.com 
+
+	# Here is your mail address(ServerAdmin) and the webserver folder(DocumentRoot).
+	ServerAdmin my@email.com
+	DocumentRoot /var/www/your_folder/
+
+	# Here is the webserver folder(Directory) which should be same as above.
+	<Directory /var/www/your_folder/>
+  		Options FollowSymLinks
+  	<IfModule mod_php5.c>
+    		php_flag register_globals off
+  	</IfModule>
+  	<IfModule mod_dir.c>
+    		DirectoryIndex index.php
+  	</IfModule>
+
+  	# access to configtest is limited by default to prevent information leak
+  	<Files configtest.php>
+    	order deny,allow
+    	deny from all
+    	allow from 127.0.0.1
+  	</Files>
+	</Directory>   
+	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+	# error, crit, alert, emerg.
+	# It is also possible to configure the loglevel for particular
+	# modules, e.g.
+	#LogLevel info ssl:warn
+
+	# The log file must have a folder for your specific webserver which may have include a index.html.
+	ErrorLog ${APACHE_LOG_DIR}/your_log_folder/error.log 
+	CustomLog ${APACHE_LOG_DIR}/your_log_folder/access.log combined 
+
+	# For most configuration files from conf-available/, which are
+	# enabled or disabled at a global level, it is possible to
+	# include a line for only one particular virtual host. For example the
+	# following line enables the CGI configuration for this host only
+	# after it has been globally disabled with "a2disconf".
+	#Include conf-available/serve-cgi-bin.conf
+
+	# The SSL depends on the machine's SSL type. Here use the snakeoil SSl for default.
+	SSLEngine on
+	SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem
+	SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+
+</VirtualHost>
+</IfModule>
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
