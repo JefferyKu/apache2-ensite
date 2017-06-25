@@ -3,8 +3,8 @@ Here is the apache2 ensite configuration. There are comments on the each line. Y
 
 There are four elements you must have.
 1. ServerName, this is your web address such as www.google.com. (The google.com is the web server's alias)
-2. The web server's physical location on your machine such as normally /var/www/your_folder or /usr/share/your_folder.
-3. The log file's folder where is on /var/log/${APACHE_LOG_DIR}/your_log_folder.
+2. The web server's path on your machine. It is normally on /var/www/your_folder or /usr/share/your_folder.
+3. The log file's folder where is on /var/log/${APACHE_LOG_DIR}/your_log_folder. You mush name this folder for distinguishing these log files.
 4. The SSL certificate, a HTTPS server mush require this certificate. The linux built-in SSL, snakeoil, is alreadly written on this profile. (i.e. You don't need to prepare one except you want a none built-in SSL.)
 
 If you have any questions, please kindly email to jeff7037@gmail.com
